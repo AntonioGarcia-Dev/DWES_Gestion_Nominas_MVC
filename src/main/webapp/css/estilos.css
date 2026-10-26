@@ -1,0 +1,98 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+}
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.btn {
+    display: block;
+    text-align: center;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #004494;
+}
+.btn-volver {
+    background-color: #6c757d;
+    margin-top: 20px;
+    display: inline-block;
+    width: auto;
+    padding: 10px 20px;
+}
+.btn-volver:hover {
+    background-color: #5a6268;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+th {
+    background-color: #0056b3;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.form-group {
+    margin-bottom: 15px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.error-msg {
+    color: #dc3545;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #dc3545;
+    background-color: #f8d7da;
+    border-radius: 5px;
+}
