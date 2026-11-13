@@ -11,13 +11,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmpleadoDAO {
+/**
+ * Implementación del patrón DAO para la entidad Empleado en MariaDB.
+ */
+public class EmpleadoDAO implements IEmpleadoDAO {
 
-    // 1. Obtener todos los empleados (Para la opción 1 del menú)
+    /**
+     * Obtiene todos los empleados registrados en la base de datos.
+     *
+     * @return Lista de empleados.
+     */
+    @Override
     public List<Empleado> obtenerTodos() {
         List<Empleado> lista = new ArrayList<>();
         String sql = "SELECT dni, nombre, sexo, categoria, anyos FROM empleados";
-        try (Connection conn = Conexion.conectar();
+        try (Connection conn = Conexion.obtenerConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
@@ -36,10 +44,16 @@ public class EmpleadoDAO {
         return lista;
     }
 
-    // 2. Obtener un empleado por su DNI (Para cargar el formulario de modificación)
+    /**
+     * Obtiene un empleado específico a partir de su DNI.
+     *
+     * @param dni DNI del empleado a buscar.
+     * @return Objeto Empleado o null si no existe.
+     */
+    @Override
     public Empleado obtenerPorDni(String dni) {
         String sql = "SELECT dni, nombre, sexo, categoria, anyos FROM empleados WHERE dni = ?";
-        try (Connection conn = Conexion.conectar();
+        try (Connection conn = Conexion.obtenerConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, dni);
@@ -60,14 +74,20 @@ public class EmpleadoDAO {
         return null;
     }
 
-    // 3. Actualizar categoría y años. Simultáneamente calcula y guarda el nuevo sueldo
+    /**
+     * Actualiza la categoría y años trabajados de un empleado y recalcula su nómina.
+     *
+     * @param emp Objeto Empleado con los datos modificados.
+     * @return true si la transacción tuvo éxito; false en caso contrario.
+     */
+    @Override
     public boolean actualizarEmpleado(Empleado emp) {
         String sqlUpdateEmp = "UPDATE empleados SET categoria = ?, anyos = ? WHERE dni = ?";
         String sqlUpdateNom = "UPDATE nominas SET sueldo = ? WHERE dni = ?";
         boolean exito = false;
 
-        try (Connection conn = Conexion.conectar()) {
-            conn.setAutoCommit(false); // Transacción para asegurar que ambas tablas se actualizan juntas
+        try (Connection conn = Conexion.obtenerConexion()) {
+            conn.setAutoCommit(false);
 
             try (PreparedStatement pstmtEmp = conn.prepareStatement(sqlUpdateEmp);
                  PreparedStatement pstmtNom = conn.prepareStatement(sqlUpdateNom)) {
@@ -85,7 +105,7 @@ public class EmpleadoDAO {
                 conn.commit();
                 exito = true;
             } catch (SQLException e) {
-                conn.rollback(); // Deshacer cambios si hay error
+                conn.rollback();
                 e.printStackTrace();
             }
         } catch (SQLException e) {
@@ -94,10 +114,16 @@ public class EmpleadoDAO {
         return exito;
     }
 
-    // 4. Obtener únicamente el salario de la tabla nominas dado un DNI (Para la opción 2 del menú)
+    /**
+     * Obtiene el salario de un empleado consultando la tabla nominas.
+     *
+     * @param dni DNI del empleado.
+     * @return Sueldo del empleado o -1 si no se encuentra.
+     */
+    @Override
     public int obtenerSalario(String dni) {
         String sql = "SELECT sueldo FROM nominas WHERE dni = ?";
-        try (Connection conn = Conexion.conectar();
+        try (Connection conn = Conexion.obtenerConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, dni);

@@ -1,5 +1,7 @@
+com.gestionnominas.acciones
 com.gestionnominas.conexion
 com.gestionnominas.controller
 com.gestionnominas.dao
 com.gestionnominas.excepciones
 com.gestionnominas.model
+com.gestionnominas.service
